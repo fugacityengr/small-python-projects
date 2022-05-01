@@ -26,8 +26,8 @@ class TestBagelsGameLogic(unittest.TestCase):
         bagels.main()
         # Only tests the last print statement which is Thanks for playing
         mockPrint.assert_called_with("Thanks for playing!")
-        # Test if the "You got it" statement got printed
 
+        # Test if the correct sequence of statements was printed
         assert "call('Guess #1')" in str(mockPrint.call_args_list)
         assert not "call('Guess #10')" in str(mockPrint.call_args_list)
         assert "call('You got it!')" == str((mockPrint.call_args_list)[-3])
@@ -97,13 +97,6 @@ class TestBagelsGameLogic(unittest.TestCase):
     def test_bagels_replay_after_correct_answer(
         self, mockSecretNumber, mockInput, mockPrint
     ):
-        # mockInput.side_effect = [
-        #     f"{bagels.getSecretNum.return_value}",
-        #     "yes",
-        #     f"{bagels.getSecretNum.return_value}",
-        #     "no",
-        # ]
-        # bagels.main()
         for num_attempts in range(10):
             user_inputs = generate_array(
                 num_attempts,
@@ -144,28 +137,28 @@ class TestBagelsGameLogic(unittest.TestCase):
         # sys.stdout.write(str(mockPrint.call_args_list) + "\n")
 
     def test_bagels_hint_fermi(self, mockSecretNumber, mockInput, mockPrint):
-        pass
+        mockInput.return_value = "145"
+        bagels.main()
+
+        assert "call('Fermi')" == str((mockPrint.call_args_list)[-5])
 
     def test_bagels_hint_pico(self, mockSecretNumber, mockInput, mockPrint):
-        pass
+        mockInput.return_value = "451"
+        bagels.main()
+
+        assert "call('Pico')" == str((mockPrint.call_args_list)[-5])
 
     def test_bagels_hint_bagels(self, mockSecretNumber, mockInput, mockPrint):
-        pass
+        mockInput.return_value = "456"
+        bagels.main()
+
+        assert "call('Bagels')" == str((mockPrint.call_args_list)[-5])
 
     def test_bagels_hint_alphabetization(self, mockSecretNumber, mockInput, mockPrint):
-        pass
+        mockInput.return_value = f"{bagels.getSecretNum.return_value[::-1]}"
+        bagels.main()
 
-
-class TestBagelsConfig(unittest.TestCase):
-    """Test if changing bagels configuration parameters yield expected results"""
-
-    @patch("bagels.NUM_DIGITS")
-    def test_bagels_num_digits_modification(self, mockNumDigits):
-        pass
-
-    @patch("bagels.MAX_GUESSES")
-    def test_bagels_max_guesses_modification(self, mockMaxGuesses):
-        pass
+        assert "call('Fermi Pico Pico')" == str((mockPrint.call_args_list)[-5])
 
 
 if __name__ == "__main__":
