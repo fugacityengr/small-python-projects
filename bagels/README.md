@@ -8,3 +8,17 @@
     - "Fermi" : your guess has a correct digit in the correct place
     - "Bagels" : your guess has no correct digits
   - The game will offer 10 tries to guess the secret number
+
+## Usage
+
+### Run the game
+
+```shell
+python3 bagels.py
+```
+
+### Run tests
+
+```shell
+python3 test_bagels.py
+```
